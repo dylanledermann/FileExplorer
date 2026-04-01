@@ -10,3 +10,29 @@ The use case for this application is generally finding the space of files/folder
 'E' - Close the file reader
 'H' - Display the help menu
 ```
+
+## Build and run
+
+Compile the project:
+```bash
+javac -d out FileExplorers/*.java Cache/*.java Cache/CacheLoader/*.java
+```
+
+Run the explorer without cache:
+```bash
+java -cp out FileExplorers.FileExplorerApp
+```
+
+Run the explorer with cache:
+```bash
+java -cp out FileExplorers.FileExplorerApp --cache
+```
+
+## Tests
+
+Run the manual test harnesses:
+```bash
+java -cp out FileExplorers.FileExplorerNoCacheTests
+java -cp out FileExplorers.CachedFileExplorerTests
+java -cp out Cache.GenericCacheTests
+```
