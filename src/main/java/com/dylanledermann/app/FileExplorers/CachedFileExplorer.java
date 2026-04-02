@@ -1,9 +1,9 @@
-package FileExplorers;
+package com.dylanledermann.app.FileExplorers;
 
-import Cache.Cache;
-import Cache.CacheLoader.CacheLoadException;
-import Cache.CacheStats;
-import Cache.GenericCache;
+import com.dylanledermann.app.Cache.Cache;
+import com.dylanledermann.app.Cache.CacheLoader.CacheLoadException;
+import com.dylanledermann.app.Cache.CacheStats;
+import com.dylanledermann.app.Cache.GenericCache;
 
 import java.io.Closeable;
 import java.io.IOException;

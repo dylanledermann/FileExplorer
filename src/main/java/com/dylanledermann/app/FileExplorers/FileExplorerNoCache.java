@@ -1,4 +1,4 @@
-package FileExplorers;
+package com.dylanledermann.app.FileExplorers;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

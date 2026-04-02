@@ -1,82 +1,103 @@
-package FileExplorers;
+package com.dylanledermann.app;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class CachedFileExplorerTests {
+import com.dylanledermann.app.FileExplorers.DirectoryListing;
+import com.dylanledermann.app.FileExplorers.FileExplorer;
+import com.dylanledermann.app.FileExplorers.FileExplorerNoCache;
 
-    public static void main(String[] args) throws Exception {
-        CachedFileExplorerTests tests = new CachedFileExplorerTests();
-        tests.runAll();
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class FileExplorerNoCacheTests {
+    @BeforeAll
+    public static void initiateTests() {
+        System.out.println("============ No Cache Tests ============");
     }
 
-    private void runAll() throws Exception {
-        testReadFileCacheHits();
-        testDirectoryListingCacheHits();
-        testCacheInvalidationAfterDelete();
-        testPerformanceFolderListingAndSize();
-        testPerformanceFolderListingAndSizeRepeated();
-        testPerformanceRepeatedRead();
-        testLargeDirectoryCacheStress();
-        testDeepNestedFolderSizePerformance();
-        System.out.println("CachedFileExplorerTests: all tests passed.");
+    @Test
+    public void testListFolderEmptyDirectory() throws IOException {
+        Path tempDir = Files.createTempDirectory("explorer-test-empty");
+        try {
+            FileExplorer explorer = new FileExplorerNoCache();
+            DirectoryListing listing = explorer.listFolder(tempDir);
+            assertTrue(listing.entries().isEmpty(), "Expected empty directory listing");
+            assertEquals(0, listing.totalSize(), "Expected total size 0 for empty directory");
+        } finally {
+            Files.deleteIfExists(tempDir);
+        }
     }
 
-    private void testReadFileCacheHits() throws IOException {
-        Path tempDir = Files.createTempDirectory("cached-explorer-read");
-        Path file = tempDir.resolve("read.txt");
-        Files.writeString(file, "cached content");
-
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
-            String first = explorer.readFile(file);
-            String second = explorer.readFile(file);
-            assert first.equals(second) : "Cached read file results should equal";
-            assert explorer.fileCacheStats().hits() >= 1 : "Expected at least one cache hit for repeated read";
+    @Test
+    public void testReadFileAndVerifyTarget() throws IOException {
+        Path tempDir = Files.createTempDirectory("explorer-test-read");
+        Path file = tempDir.resolve("sample.txt");
+        Files.writeString(file, "hello world");
+        try {
+            FileExplorer explorer = new FileExplorerNoCache();
+            assertTrue(explorer.verifyTarget("R", "sample.txt", tempDir), "Expected text file to verify");
+            String contents = explorer.readFile(file);
+            assertEquals("hello world", contents, "Unexpected file content");
         } finally {
             Files.deleteIfExists(file);
             Files.deleteIfExists(tempDir);
         }
     }
 
-    private void testDirectoryListingCacheHits() throws IOException {
-        Path tempDir = Files.createTempDirectory("cached-explorer-list");
-        Files.createFile(tempDir.resolve("a.txt"));
+    @Test
+    public void testGetFolderSize() throws IOException {
+        Path tempDir = Files.createTempDirectory("explorer-test-size");
+        Path fileA = tempDir.resolve("a.txt");
+        Path nested = Files.createDirectory(tempDir.resolve("nested"));
+        Path fileB = nested.resolve("b.txt");
+        Files.writeString(fileA, "12345");
+        Files.writeString(fileB, "abcd");
 
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
-            DirectoryListing first = explorer.listFolder(tempDir);
-            DirectoryListing second = explorer.listFolder(tempDir);
-            assert first.entries().size() == second.entries().size() : "Expected same listing size";
-            assert explorer.listingCacheStats().hits() >= 1 : "Expected at least one cache hit for repeated listing";
+        try {
+            FileExplorer explorer = new FileExplorerNoCache();
+            long expected = Files.size(fileA) + Files.size(fileB);
+            long actual = explorer.getFolderSize(tempDir);
+            assertEquals(expected, actual, "Expected folder size to match actual file size");
         } finally {
-            Files.deleteIfExists(tempDir.resolve("a.txt"));
+            Files.deleteIfExists(fileB);
+            Files.deleteIfExists(nested);
+            Files.deleteIfExists(fileA);
             Files.deleteIfExists(tempDir);
         }
     }
 
-    private void testCacheInvalidationAfterDelete() throws IOException {
-        Path tempDir = Files.createTempDirectory("cached-explorer-delete");
-        Path file = tempDir.resolve("b.txt");
-        Files.writeString(file, "delete me");
+    @Test
+    public void testDeleteTarget() throws IOException {
+        Path tempDir = Files.createTempDirectory("explorer-test-delete");
+        Path target = Files.createDirectory(tempDir.resolve("child"));
+        Path nested = Files.createFile(target.resolve("child.txt"));
+        FileExplorer explorer = new FileExplorerNoCache();
 
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
-            explorer.readFile(file);
-            assert explorer.fileCacheStats().misses() >= 1 : "Expected initial read miss";
-            explorer.deleteTarget(file);
-            assert !Files.exists(file) : "File should be deleted";
-            explorer.listFolder(tempDir);
-            assert explorer.listingCacheStats().misses() >= 1
-                    : "After delete, listing should refresh from cache or miss";
+        try {
+            assertTrue(Files.exists(target), "Target should exist before deletion");
+            boolean deleted = explorer.deleteTarget(target);
+            assertTrue(deleted, "deleteTarget should return true");
+            assertFalse(Files.exists(target), "Target should be removed after deletion");
+            assertTrue(Files.exists(tempDir), "Parent directory should remain");
         } finally {
-            Files.deleteIfExists(file);
+            Files.deleteIfExists(nested);
+            Files.deleteIfExists(target);
             Files.deleteIfExists(tempDir);
         }
     }
 
-    private void testPerformanceFolderListingAndSize() throws IOException {
+    @Test
+    public void testPerformanceFolderListingAndSize() throws IOException {
         Path tempDir = Files.createTempDirectory("explorer-test-perf");
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
+        try {
             createTestStructure(tempDir, 10, 20, 512);
+            FileExplorer explorer = new FileExplorerNoCache();
 
             long start = System.nanoTime();
             DirectoryListing listing = explorer.listFolder(tempDir);
@@ -87,8 +108,8 @@ public class CachedFileExplorerTests {
             long sizeDuration = System.nanoTime() - start;
 
             long actualBytes = computeActualStorage(tempDir);
-            assert size == actualBytes : "Folder size should equal actual bytes on disk";
-            assert listing.totalSize() == actualBytes : "Listing total size should equal actual bytes on disk";
+            assertEquals(actualBytes, size, "Folder size should equal actual bytes on disk");
+            assertEquals(actualBytes, listing.totalSize(), "Listing total size should equal actual bytes on disk");
 
             System.out.println("Performance: listFolder time = " + (listDuration / 1_000_000.0) + " ms");
             System.out.println("Performance: getFolderSize time = " + (sizeDuration / 1_000_000.0) + " ms");
@@ -98,11 +119,12 @@ public class CachedFileExplorerTests {
         }
     }
 
-    private void testPerformanceFolderListingAndSizeRepeated() throws IOException {
+    @Test
+    public void testPerformanceFolderListingAndSizeRepeated() throws IOException {
         Path tempDir = Files.createTempDirectory("explorer-test-perf");
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
+        try {
             createTestStructure(tempDir, 10, 20, 512);
-            // Repeat 5 times store total time and output it
+            FileExplorer explorer = new FileExplorerNoCache();
             long totListDuration = 0;
             long totSizeDuration = 0;
             for (int i = 0; i < 5; i++) {
@@ -117,8 +139,8 @@ public class CachedFileExplorerTests {
                 totSizeDuration += sizeDuration;
 
                 long actualBytes = computeActualStorage(tempDir);
-                assert size == actualBytes : "Folder size should equal actual bytes on disk";
-                assert listing.totalSize() == actualBytes : "Listing total size should equal actual bytes on disk";
+                assertEquals(actualBytes, size, "Folder size should equal actual bytes on disk");
+                assertEquals(actualBytes, listing.totalSize(), "Listing total size should equal actual bytes on disk");
             }
             System.out.println("Performance: listFolder 5 times = " + (totListDuration / 1_000_000.0) + " ms");
             System.out.println("Performance: getFolderSize 5 times = " + (totSizeDuration / 1_000_000.0) + " ms");
@@ -127,19 +149,21 @@ public class CachedFileExplorerTests {
         }
     }
 
-    private void testPerformanceRepeatedRead() throws IOException {
+    @Test
+    public void testPerformanceRepeatedRead() throws IOException {
         Path tempDir = Files.createTempDirectory("explorer-test-perf-read");
         Path file = tempDir.resolve("large.txt");
         String content = "0123456789".repeat(1000);
         Files.writeString(file, content);
 
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
+        try {
+            FileExplorer explorer = new FileExplorerNoCache();
             int iterations = 20;
             long totalBytes = 0;
             long start = System.nanoTime();
             for (int i = 0; i < iterations; i++) {
                 String read = explorer.readFile(file);
-                assert read.length() == content.length() : "Unexpected read size";
+                assertEquals(content.length(), read.length(), "Unexpected read size");
                 totalBytes += read.length();
             }
             long duration = System.nanoTime() - start;
@@ -152,9 +176,11 @@ public class CachedFileExplorerTests {
         }
     }
 
-    private void testLargeDirectoryCacheStress() throws IOException {
-        Path tempDir = Files.createTempDirectory("cached-explorer-stress");
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
+    @Test
+    public void testLargeDirectoryCacheStress() throws IOException {
+        Path tempDir = Files.createTempDirectory("explorer-stress");
+        try {
+            FileExplorerNoCache explorer = new FileExplorerNoCache();
             int subdirs = 40;
             int filesPerDir = 25;
             createTestStructure(tempDir, subdirs, filesPerDir, 256);
@@ -162,26 +188,20 @@ public class CachedFileExplorerTests {
             long start = System.nanoTime();
             for (int i = 0; i < subdirs; i++) {
                 DirectoryListing listing = explorer.listFolder(tempDir.resolve("dir" + i));
-                assert listing.entries().size() == filesPerDir : "Expected " + filesPerDir + " entries";
+                assertEquals(filesPerDir, listing.entries().size(), "Expected " + filesPerDir + " entries");
             }
             long firstPass = System.nanoTime() - start;
 
-            long cacheHitsBefore = explorer.listingCacheStats().hits();
             start = System.nanoTime();
             for (int i = 0; i < subdirs; i++) {
                 DirectoryListing listing = explorer.listFolder(tempDir.resolve("dir" + i));
-                assert listing.entries().size() == filesPerDir : "Expected " + filesPerDir + " entries";
+                assertEquals(filesPerDir, listing.entries().size(), "Expected " + filesPerDir + " entries");
             }
             long secondPass = System.nanoTime() - start;
 
-            assert explorer.listingCacheStats().hits() >= cacheHitsBefore + subdirs
-                    : "Expected repeated listings to hit cache";
-
             Path sampleFile = tempDir.resolve("dir0").resolve("file0.txt");
             explorer.readFile(sampleFile);
-            long fileHitsBefore = explorer.fileCacheStats().hits();
             explorer.readFile(sampleFile);
-            assert explorer.fileCacheStats().hits() >= fileHitsBefore + 1 : "Expected repeated read to hit cache";
 
             System.out.println("Stress: first pass directory listings = " + (firstPass / 1_000_000.0) + " ms");
             System.out.println("Stress: second pass directory listings = " + (secondPass / 1_000_000.0) + " ms");
@@ -190,9 +210,10 @@ public class CachedFileExplorerTests {
         }
     }
 
-    private void testDeepNestedFolderSizePerformance() throws IOException {
+    @Test
+    public void testDeepNestedFolderSizePerformance() throws IOException {
         Path tempDir = Files.createTempDirectory("explorer-test-deep");
-        try (CachedFileExplorer explorer = new CachedFileExplorer(new FileExplorerNoCache())) {
+        try {
             Path current = tempDir;
             int depth = 40;
             for (int i = 0; i < depth; i++) {
@@ -200,11 +221,12 @@ public class CachedFileExplorerTests {
                 Files.writeString(current.resolve("file" + i + ".txt"), "nested-data".repeat(128));
             }
 
+            FileExplorer explorer = new FileExplorerNoCache();
             long start = System.nanoTime();
             long size = explorer.getFolderSize(tempDir);
             long duration = System.nanoTime() - start;
             long expected = computeActualStorage(tempDir);
-            assert size == expected : "Deep folder size mismatch";
+            assertEquals(expected, size, "Deep folder size mismatch");
             System.out.println(
                     "Stress: deep nested getFolderSize time = " + (duration / 1_000_000.0) + " ms for depth " + depth);
         } finally {

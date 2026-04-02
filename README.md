@@ -1,6 +1,6 @@
 # File Explorer In Java
-This application is a simple file explorer built using Java.
-The explorer has a cached explorer and no cache explorer to compare performances.
+This application tests file explorers with different cache implementations.
+[Maven](https://maven.apache.org/index.html) is used to bundle and test the application.
 The use case for this application is generally finding the space of files/folders and deleting files/folders. The input options are the following:
 ```bash
 'B' - Go to parent directory
@@ -16,22 +16,20 @@ The use case for this application is generally finding the space of files/folder
 
 Compile the project:
 ```bash
-javac -d out FileExplorerApp.java FileExplorers/*.java Cache/*.java Cache/CacheLoader/*.java
+mvn clean package
 ```
 
 Run the explorer:
 ```bash
 # Run the file explorer with no cache
-java -cp out FileExplorerApp
+java -jar target/file-explorer-1.0-SNAPSHOT.jar
 # Run the file explorer with the generic cache
-java -cp out FileExplorerApp --cache
+java -jar target/file-explorer-1.0-SNAPSHOT.jar --cache
 ```
 
 ## Tests
 
-Run the manual test harnesses:
+Run the tests:
 ```bash
-java -cp out FileExplorers.FileExplorerNoCacheTests
-java -cp out FileExplorers.CachedFileExplorerTests
-java -cp out Cache.GenericCacheTests
+mvn -q test
 ```

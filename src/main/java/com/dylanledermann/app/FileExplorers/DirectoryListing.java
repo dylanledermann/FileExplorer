@@ -1,4 +1,4 @@
-package FileExplorers;
+package com.dylanledermann.app.FileExplorers;
 
 import java.nio.file.Path;
 import java.util.List;

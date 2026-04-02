@@ -1,4 +1,4 @@
-package Cache;
+package com.dylanledermann.app.Cache;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -11,8 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import Cache.CacheLoader.CacheLoadException;
-import Cache.CacheLoader.CacheLoader;
+import com.dylanledermann.app.Cache.CacheLoader.CacheLoadException;
+import com.dylanledermann.app.Cache.CacheLoader.CacheLoader;
 
 import java.time.Duration;
 

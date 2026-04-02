@@ -1,17 +1,23 @@
+package com.dylanledermann.app;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import FileExplorers.CachedFileExplorer;
-import FileExplorers.DirectoryEntry;
-import FileExplorers.DirectoryListing;
-import FileExplorers.FileExplorer;
-import FileExplorers.FileExplorerNoCache;
+import com.dylanledermann.app.FileExplorers.CachedFileExplorer;
+import com.dylanledermann.app.FileExplorers.DirectoryEntry;
+import com.dylanledermann.app.FileExplorers.DirectoryListing;
+import com.dylanledermann.app.FileExplorers.FileExplorer;
+import com.dylanledermann.app.FileExplorers.FileExplorerNoCache;
 
 public class FileExplorerApp {
     public static void main(String[] args) {
         boolean useCache = args.length > 0 && "--cache".equals(args[0]);
+        if (useCache) {
+            System.out.println("Using Generic Cache.");
+        } else {
+            System.out.println("Using No Cache.");
+        }
         FileExplorer explorer = useCache ? new CachedFileExplorer(new FileExplorerNoCache())
                 : new FileExplorerNoCache();
         try {

@@ -1,4 +1,4 @@
-package Cache;
+package com.dylanledermann.app.Cache;
 
 record CacheEntry<V>(
         V value,
