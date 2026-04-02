@@ -24,7 +24,9 @@ Run the explorer:
 # Run the file explorer with no cache
 java -jar target/file-explorer-1.0-SNAPSHOT.jar
 # Run the file explorer with the generic cache
-java -jar target/file-explorer-1.0-SNAPSHOT.jar --cache
+java -jar target/file-explorer-1.0-SNAPSHOT.jar --cache=generic
+# Run the file explorer with the caffeine cache
+java -jar target/file-explorer-1.0-SNAPSHOT.jar --cache=caffeine
 ```
 
 ## Tests
@@ -32,4 +34,6 @@ java -jar target/file-explorer-1.0-SNAPSHOT.jar --cache
 Run the tests:
 ```bash
 mvn -q test
+# Run specific test
+mvn -q -Dtest={ClassName,ClassName2,ClassName#MethodName+MethodName2}
 ```

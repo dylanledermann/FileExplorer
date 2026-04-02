@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.1" name="com.dylanledermann.app.CachedFileExplorerTests" time="0.662" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.1" name="com.dylanledermann.app.CachedFileExplorerTests" time="1.599" tests="16" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,8 +12,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/jdk-25/lib"/>
-    <property name="sun.java.command" value="/home/dylhead/Documents/Projects/file-explorer/target/surefire/surefirebooter-20260401222448530_3.jar /home/dylhead/Documents/Projects/file-explorer/target/surefire 2026-04-01T22-24-48_327-jvmRun1 surefire-20260401222448530_1tmp surefire_0-20260401222448530_2tmp"/>
+    <property name="sun.java.command" value="/home/dylhead/Documents/Projects/file-explorer/target/surefire/surefirebooter-20260401223318539_3.jar /home/dylhead/Documents/Projects/file-explorer/target/surefire 2026-04-01T22-33-18_320-jvmRun1 surefire-20260401223318539_1tmp surefire_0-20260401223318539_2tmp"/>
     <property name="jdk.debug" value="release"/>
+    <property name="test" value="CachedFileExplorerTests"/>
     <property name="surefire.test.class.path" value="/home/dylhead/Documents/Projects/file-explorer/target/test-classes:/home/dylhead/Documents/Projects/file-explorer/target/classes:/home/dylhead/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.2.3/caffeine-3.2.3.jar:/home/dylhead/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/dylhead/.m2/repository/com/google/errorprone/error_prone_annotations/2.43.0/error_prone_annotations-2.43.0.jar:/home/dylhead/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.0/junit-jupiter-api-5.11.0.jar:/home/dylhead/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/dylhead/.m2/repository/org/junit/platform/junit-platform-commons/1.11.0/junit-platform-commons-1.11.0.jar:/home/dylhead/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/dylhead/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.0/junit-jupiter-params-5.11.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/dylhead"/>
@@ -27,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/dylhead/Documents/Projects/file-explorer/target/surefire/surefirebooter-20260401222448530_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/dylhead/Documents/Projects/file-explorer/target/surefire/surefirebooter-20260401223318539_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25+36-3489"/>
     <property name="user.name" value="dylhead"/>
@@ -54,56 +55,56 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testPerformanceRepeatedRead" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.017">
+  <testcase name="testPerformanceRepeatedRead" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.127">
     <system-out><![CDATA[============ Generic Cache Tests ============
-Performance: repeated read 20 times = 4.837482 ms
+Performance: repeated read 20 times = 8.169487 ms
 Performance: bytes read total = 200000 bytes
 ]]></system-out>
   </testcase>
-  <testcase name="testPerformanceFolderListingAndSizeRepeated" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.081">
-    <system-out><![CDATA[Performance: listFolder 5 times = 12.984242 ms
-Performance: getFolderSize 5 times = 10.263819 ms
+  <testcase name="testPerformanceFolderListingAndSizeRepeated" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.189">
+    <system-out><![CDATA[Performance: listFolder 5 times = 41.89846 ms
+Performance: getFolderSize 5 times = 15.613025 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testLargeDirectoryCacheStress" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.12">
-    <system-out><![CDATA[Stress: first pass directory listings = 41.832356 ms
-Stress: second pass directory listings = 0.270423 ms
+  <testcase name="testLargeDirectoryCacheStress" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.231">
+    <system-out><![CDATA[Stress: first pass directory listings = 66.091206 ms
+Stress: second pass directory listings = 2.279957 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testListFolderEmptyDirectory" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.006"/>
-  <testcase name="testRepeatedCacheHitsAndSpeed" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.133">
-    <system-out><![CDATA[Performance: listing first pass = 41.215777 ms
-Performance: listing second pass = 0.13783 ms
-Performance: file read first series = 0.862385 ms
-Performance: file read second series = 0.625764 ms
+  <testcase name="testListFolderEmptyDirectory" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.012"/>
+  <testcase name="testRepeatedCacheHitsAndSpeed" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.182">
+    <system-out><![CDATA[Performance: listing first pass = 62.316194 ms
+Performance: listing second pass = 0.43163 ms
+Performance: file read first series = 3.146754 ms
+Performance: file read second series = 1.172374 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testThreadedConcurrentFileReads" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.058">
-    <system-out><![CDATA[Performance: threaded concurrent reads with 8 threads = 32.519662 ms
+  <testcase name="testThreadedConcurrentFileReads" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.149">
+    <system-out><![CDATA[Performance: threaded concurrent reads with 8 threads = 62.112942 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testDeleteTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.003"/>
-  <testcase name="testPerformanceFolderListingAndSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.026">
-    <system-out><![CDATA[Performance: listFolder time = 5.040106 ms
-Performance: getFolderSize time = 2.915526 ms
+  <testcase name="testDeleteTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.029"/>
+  <testcase name="testPerformanceFolderListingAndSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.05">
+    <system-out><![CDATA[Performance: listFolder time = 7.265576 ms
+Performance: getFolderSize time = 6.836086 ms
 Performance: total storage = 102400 bytes
 ]]></system-out>
   </testcase>
-  <testcase name="testGetFolderSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.007"/>
-  <testcase name="testReadFileAndVerifyTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.003"/>
-  <testcase name="testDeepNestedFolderSizePerformance" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.018">
-    <system-out><![CDATA[Stress: deep nested getFolderSize time = 2.131799 ms for depth 40
+  <testcase name="testGetFolderSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.017"/>
+  <testcase name="testReadFileAndVerifyTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.148"/>
+  <testcase name="testDeepNestedFolderSizePerformance" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.049">
+    <system-out><![CDATA[Stress: deep nested getFolderSize time = 16.664026 ms for depth 40
 ]]></system-out>
   </testcase>
-  <testcase name="testReadFileCacheHits" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.01"/>
-  <testcase name="testEvictionHeavyCacheWorkload" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.139">
-    <system-out><![CDATA[Generic cache eviction-heavy hot reads = 0.801382 ms
+  <testcase name="testReadFileCacheHits" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.007"/>
+  <testcase name="testEvictionHeavyCacheWorkload" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.289">
+    <system-out><![CDATA[Generic cache eviction-heavy hot reads = 1.727806 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testRepeatedHitsShowGenericCacheImprovement" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.01">
-    <system-out><![CDATA[Generic cache repeated hot reads = 0.276898 ms
+  <testcase name="testRepeatedHitsShowGenericCacheImprovement" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.013">
+    <system-out><![CDATA[Generic cache repeated hot reads = 0.659426 ms
 ]]></system-out>
   </testcase>
   <testcase name="testDirectoryListingCacheHits" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.005"/>
-  <testcase name="testCacheInvalidationAfterDelete" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.006"/>
+  <testcase name="testCacheInvalidationAfterDelete" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.003"/>
 </testsuite>
