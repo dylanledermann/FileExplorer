@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.1" name="com.dylanledermann.app.CachedFileExplorerTests" time="0.662" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.1" name="com.dylanledermann.app.CaffeineFileExplorerTests" time="1.357" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -54,56 +54,53 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testPerformanceRepeatedRead" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.017">
-    <system-out><![CDATA[============ Generic Cache Tests ============
-Performance: repeated read 20 times = 4.837482 ms
+  <testcase name="testPerformanceRepeatedRead" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.155">
+    <system-out><![CDATA[============ Caffeine Cache Tests ============
+Performance: repeated read 20 times = 29.47487 ms
 Performance: bytes read total = 200000 bytes
 ]]></system-out>
   </testcase>
-  <testcase name="testPerformanceFolderListingAndSizeRepeated" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.081">
-    <system-out><![CDATA[Performance: listFolder 5 times = 12.984242 ms
-Performance: getFolderSize 5 times = 10.263819 ms
+  <testcase name="testPerformanceFolderListingAndSizeRepeated" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.135">
+    <system-out><![CDATA[Performance: listFolder 5 times = 31.829476 ms
+Performance: getFolderSize 5 times = 11.494444 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testLargeDirectoryCacheStress" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.12">
-    <system-out><![CDATA[Stress: first pass directory listings = 41.832356 ms
-Stress: second pass directory listings = 0.270423 ms
+  <testcase name="testLargeDirectoryCacheStress" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.202">
+    <system-out><![CDATA[Stress: first pass directory listings = 63.715591 ms
+Stress: second pass directory listings = 1.449724 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testListFolderEmptyDirectory" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.006"/>
-  <testcase name="testRepeatedCacheHitsAndSpeed" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.133">
-    <system-out><![CDATA[Performance: listing first pass = 41.215777 ms
-Performance: listing second pass = 0.13783 ms
-Performance: file read first series = 0.862385 ms
-Performance: file read second series = 0.625764 ms
+  <testcase name="testListFolderEmptyDirectory" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.006"/>
+  <testcase name="testRepeatedCacheHitsAndSpeed" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.242">
+    <system-out><![CDATA[Performance: listing first pass = 93.440706 ms
+Performance: listing second pass = 0.755233 ms
+Performance: file read first series = 9.570415 ms
+Performance: file read second series = 5.196187 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testThreadedConcurrentFileReads" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.058">
-    <system-out><![CDATA[Performance: threaded concurrent reads with 8 threads = 32.519662 ms
+  <testcase name="testThreadedConcurrentFileReads" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.065">
+    <system-out><![CDATA[Performance: threaded concurrent reads with 8 threads = 26.851952 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testDeleteTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.003"/>
-  <testcase name="testPerformanceFolderListingAndSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.026">
-    <system-out><![CDATA[Performance: listFolder time = 5.040106 ms
-Performance: getFolderSize time = 2.915526 ms
+  <testcase name="testDeleteTarget" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.015"/>
+  <testcase name="testPerformanceFolderListingAndSize" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.051">
+    <system-out><![CDATA[Performance: listFolder time = 8.478169 ms
+Performance: getFolderSize time = 7.840227 ms
 Performance: total storage = 102400 bytes
 ]]></system-out>
   </testcase>
-  <testcase name="testGetFolderSize" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.007"/>
-  <testcase name="testReadFileAndVerifyTarget" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.003"/>
-  <testcase name="testDeepNestedFolderSizePerformance" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.018">
-    <system-out><![CDATA[Stress: deep nested getFolderSize time = 2.131799 ms for depth 40
+  <testcase name="testGetFolderSize" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.004"/>
+  <testcase name="testReadFileAndVerifyTarget" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.091"/>
+  <testcase name="testDeepNestedFolderSizePerformance" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.019">
+    <system-out><![CDATA[Stress: deep nested getFolderSize time = 5.72252 ms for depth 40
 ]]></system-out>
   </testcase>
-  <testcase name="testReadFileCacheHits" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.01"/>
-  <testcase name="testEvictionHeavyCacheWorkload" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.139">
-    <system-out><![CDATA[Generic cache eviction-heavy hot reads = 0.801382 ms
+  <testcase name="testRepeatedHitsShowCaffeineImprovement" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.013">
+    <system-out><![CDATA[Caffeine repeated hot reads = 0.952643 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testRepeatedHitsShowGenericCacheImprovement" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.01">
-    <system-out><![CDATA[Generic cache repeated hot reads = 0.276898 ms
+  <testcase name="testEvictionHeavyCacheWorkload" classname="com.dylanledermann.app.CaffeineFileExplorerTests" time="0.326">
+    <system-out><![CDATA[Caffeine eviction-heavy hot reads = 35.443007 ms
 ]]></system-out>
   </testcase>
-  <testcase name="testDirectoryListingCacheHits" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.005"/>
-  <testcase name="testCacheInvalidationAfterDelete" classname="com.dylanledermann.app.CachedFileExplorerTests" time="0.006"/>
 </testsuite>

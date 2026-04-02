@@ -1,5 +1,6 @@
 com/dylanledermann/app/FileExplorerApp.class
 com/dylanledermann/app/Cache/GenericCache.class
+com/dylanledermann/app/FileExplorers/CaffeineFileExplorer.class
 com/dylanledermann/app/Cache/CacheLoader/CacheLoader.class
 com/dylanledermann/app/Cache/CacheEntry.class
 com/dylanledermann/app/Cache/CacheLoader/CacheLoadException.class

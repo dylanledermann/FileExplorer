@@ -6,6 +6,7 @@
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/Cache/GenericCache.java
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorerApp.java
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorers/CachedFileExplorer.java
+/home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorers/CaffeineFileExplorer.java
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorers/DirectoryEntry.java
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorers/DirectoryListing.java
 /home/dylhead/Documents/Projects/file-explorer/src/main/java/com/dylanledermann/app/FileExplorers/FileExplorer.java

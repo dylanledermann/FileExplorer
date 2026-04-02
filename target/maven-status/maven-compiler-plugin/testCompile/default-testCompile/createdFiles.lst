@@ -1,3 +1,5 @@
 com/dylanledermann/app/CachedFileExplorerTests.class
 com/dylanledermann/app/FileExplorerNoCacheTests.class
+com/dylanledermann/app/AbstractFileExplorerTests.class
+com/dylanledermann/app/CaffeineFileExplorerTests.class
 com/dylanledermann/app/GenericCacheTests.class

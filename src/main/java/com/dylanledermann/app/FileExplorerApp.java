@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 import com.dylanledermann.app.FileExplorers.CachedFileExplorer;
+import com.dylanledermann.app.FileExplorers.CaffeineFileExplorer;
 import com.dylanledermann.app.FileExplorers.DirectoryEntry;
 import com.dylanledermann.app.FileExplorers.DirectoryListing;
 import com.dylanledermann.app.FileExplorers.FileExplorer;
@@ -12,14 +13,26 @@ import com.dylanledermann.app.FileExplorers.FileExplorerNoCache;
 
 public class FileExplorerApp {
     public static void main(String[] args) {
-        boolean useCache = args.length > 0 && "--cache".equals(args[0]);
+        boolean useCache = args.length > 0 && args[0].startsWith("--cache=");
+        String cache = "";
         if (useCache) {
+            cache = args[0].split("=")[1];
+            System.out.println(cache);
+        }
+        FileExplorer explorer;
+        if (useCache && cache.equals("generic")) {
             System.out.println("Using Generic Cache.");
+            explorer = new CachedFileExplorer(new FileExplorerNoCache());
+        } else if (useCache && cache.equals("caffeine")) {
+            System.out.println("Using Caffeine Cache.");
+            explorer = new CaffeineFileExplorer(new FileExplorerNoCache());
+        } else if (useCache) {
+            System.out.println("Invalid Specified Cache: " + cache);
+            return;
         } else {
             System.out.println("Using No Cache.");
+            explorer = new FileExplorerNoCache();
         }
-        FileExplorer explorer = useCache ? new CachedFileExplorer(new FileExplorerNoCache())
-                : new FileExplorerNoCache();
         try {
             runLoop(explorer);
         } catch (IOException e) {
